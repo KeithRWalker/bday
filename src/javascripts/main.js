@@ -1,10 +1,12 @@
 import '../styles/main.scss';
 
-import util from './helpers/util';
+import auth from './components/auth/auth';
+
+import bday from './components/bday/bday';
 
 const init = () => {
-  util.printToDom('app', 'Printing to Dom');
-  console.error('testing');
+  auth.authBuild();
+  bday.bdayBuild();
 };
 
 init();
