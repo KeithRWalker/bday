@@ -3,3 +3,5 @@ node_modules/
 dist/
 build/
 node_modules
+.vscode
+src/javascripts/helpers/apikeys.json
