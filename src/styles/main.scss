@@ -2,13 +2,12 @@
 
 body{
   background-color: rgb(53, 138, 98);
-  color: aliceblue;
   padding: 2em;
   text-align: center;
 }
 
 .card{
-  background-color: gray;
+  background-color: rgb(128, 115, 246);
 }
 
 .google-auth{
@@ -24,12 +23,4 @@ body{
 
 .hide{
   display: none;
-}
-
-.friends-table{
-  color:aliceblue;
-}
-
-.friend-table-x{
-  color: aliceblue;
 }
