@@ -22,10 +22,25 @@ const createNewFriend = (e) => {
     .catch(err => console.error('no new friend for you', err));
 };
 
+const deleteFriendsEvent = (e) => {
+  const friendId = e.target.id;
+  friendsData.deleteFriend(friendId)
+    .then(() => getFriends(firebase.auth().currentUser.uid)) // eslint-disable-line no-use-before-define
+    .catch(err => console.error(err, 'error from deletefriendevent'));
+};
+
 const newFriendButton = () => {
   document.getElementById('bday').classList.add('hide');
   document.getElementById('new-friend').classList.remove('hide');
   document.getElementById('saveNewFriend').addEventListener('click', createNewFriend);
+};
+
+const addEvents = () => {
+  document.getElementById('add-friend-button').addEventListener('click', newFriendButton);
+  const deleteButtons = document.getElementsByClassName('delete-friend');
+  for (let i = 0; i < deleteButtons.length; i += 1) {
+    deleteButtons[i].addEventListener('click', deleteFriendsEvent);
+  }
 };
 
 const showFriends = (friends) => {
@@ -68,6 +83,7 @@ const showFriends = (friends) => {
   domString += '</div>';
   util.printToDom('friends', domString);
   document.getElementById('add-friend-button').addEventListener('click', newFriendButton);
+  addEvents();
 };
 
 const getFriends = (uid) => {
@@ -78,7 +94,6 @@ const getFriends = (uid) => {
       document.getElementById('email').value = '';
       document.getElementById('birthday').classList.remove('hide');
       document.getElementById('new-friend').classList.add('hide');
-      getFriends(firebase.auth().currentUser.uid); // eslint-disable-line no-use-before-define
     })
     .catch(err => console.error(err, 'error from "getFriends" in friends.js'));
 };
