@@ -42,13 +42,22 @@ const deleteFriendsEvent = (e) => {
 
 const radioButtonEvent = (e) => {
   const rsvpId = e.target.closest('td').id;
-  console.error(rsvpId);
   const rsvp = {
-    birdayId: e.target.closest('table').id,
+    birthdayId: e.target.closest('table').id,
     friendId: e.target.id.split('.')[1],
-    statusid: e.target.value,
+    statusId: e.target.value,
   };
-  console.error(rsvp);
+  if (rsvp) {
+    // update
+    rsvpData.editRsvp(rsvpId, rsvp)
+      .then(() => getFriends(firebase.auth().currentUser.uid)) // eslint-disable-line no-use-before-define
+      .catch(err => console.error('no update', err));
+  } else {
+    // add
+    rsvpData.addRsvp(rsvp)
+      .then(() => getFriends(firebase.auth().currentUser.uid)) // eslint-disable-line no-use-before-define
+      .catch(err => console.error('no add', err));
+  }
 };
 
 const addEvents = () => {
@@ -58,7 +67,6 @@ const addEvents = () => {
     deleteButtons[i].addEventListener('click', deleteFriendsEvent);
   }
 
-  document.getElementById('add-friend-button').addEventListener('click', newFriendButton);
   const radioButtons = document.getElementsByClassName('radio');
   for (let j = 0; j < radioButtons.length; j += 1) {
     radioButtons[j].addEventListener('click', radioButtonEvent);
@@ -66,7 +74,7 @@ const addEvents = () => {
 };
 
 const showFriends = (friends, birthdayId) => {
-  let domString = '<div class="col-6 offset-3 friend-table-x">';
+  let domString = '<div class="col-6 offset-3">';
   domString += '<h2>Friends</h2>';
   domString += '<button id="add-friend-button" class="btn btn-info">Add Friend</button>';
   domString += `<table class="table table-striped" id="${birthdayId}">`;
@@ -85,15 +93,15 @@ const showFriends = (friends, birthdayId) => {
     domString += `<td>${friend.email}</td>`;
     domString += `<td id=${friend.rsvpId}>`;
     domString += '<div class="custom-control custom-radio custom-control-inline">';
-    domString += `<input type="radio" id="radio1.${friend.id}" name="radio-buttons.${friend.id}" class="custom-control-input radio" value="status2" ${friend.statusId === 'status2' ? 'checked' : ''}>`;
+    domString += `<input type="radio" id="radio1.${friend.id}" name="radio-buttons_${friend.id}" class="custom-control-input radio" value="status2" ${friend.statusId === 'status2' ? 'checked' : ''}>`;
     domString += `<label class="custom-control-label" for="radio1.${friend.id}">Yes</label>`;
     domString += '</div>';
     domString += '<div class="custom-control custom-radio custom-control-inline">';
-    domString += `<input type="radio" id="radio2.${friend.id}" name="radio-buttons.${friend.id}" class="custom-control-input radio" value="status3" ${friend.statusId === 'status3' ? 'checked' : ''}>`;
+    domString += `<input type="radio" id="radio2.${friend.id}" name="radio-buttons_${friend.id}" class="custom-control-input radio" value="status3" ${friend.statusId === 'status3' ? 'checked' : ''}>`;
     domString += `<label class="custom-control-label" for="radio2.${friend.id}">No</label>`;
     domString += '</div>';
     domString += '<div class="custom-control custom-radio custom-control-inline">';
-    domString += `<input type="radio" id="radio3.${friend.id}" name="radio-buttons.${friend.id}" class="custom-control-input radio" value="status1" ${friend.statusId === 'status1' ? 'checked' : ''}>`;
+    domString += `<input type="radio" id="radio3.${friend.id}" name="radio-buttons_${friend.id}" class="custom-control-input radio" value="status1" ${friend.statusId === 'status1' ? 'checked' : ''}>`;
     domString += `<label class="custom-control-label" for="radio3.${friend.id}">IDK</label>`;
     domString += '</div>';
     domString += '</td>';
@@ -104,7 +112,6 @@ const showFriends = (friends, birthdayId) => {
   domString += '</table>';
   domString += '</div>';
   util.printToDom('friends', domString);
-  // document.getElementById('add-friend-button').addEventListener('click', newFriendButton);
   addEvents();
 };
 
