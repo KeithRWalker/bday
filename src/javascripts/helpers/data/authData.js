@@ -4,7 +4,7 @@ import bday from '../../components/bday/bday';
 import friends from '../../components/friends/friends';
 
 const authDiv = document.getElementById('auth');
-const birthdayDiv = document.getElementById('bday');
+const birthdayDiv = document.getElementById('birthday');
 const birthdayNavbar = document.getElementById('navbar-button-birthday');
 const authNavbar = document.getElementById('navbar-button-auth');
 const logoutNavbar = document.getElementById('navbar-button-logout');

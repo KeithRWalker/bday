@@ -1,52 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-
-  <head>
-
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <!-- vvvv-favicon fix-vvvvv -->
-    <link rel="shortcut icon" href="#" />
-    <title>B-Day</title>
-
-  </head>
-
-  <body class="text-center">
-
-    <div class="navbar" id="navbar">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" href="#">Birthday</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                  <a id="navbar-button-auth" class="nav-link">Authentication</a>
-                </li>
-                <li class="nav-item">
-                  <a id="navbar-button-birthday" class="nav-link hide">My Birthday</a>
-                </li>
-                <li class="nav-item">
-                  <a id="navbar-button-logout" class="nav-link hide">Logout</a>
-                </li>
-              </ul>
-            </div>
-          </nav>
-    </div>
-                                                        <!-- ________________________________________________________ -->
-    <div class="auth" id="auth"></div>
-    
-    <div class="hide" id="bday">
-      <div id="event"></div>
-      <div id="friends"></div>
-    </div>
-
-<div id="friends-table">
-  <div id="new-friend" class="new-friend"></div>
-</div>
-
-  </body>
-
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>MAH birthday</title>
+</head>
+<body>
+  <div id="navbar">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="#">birthday</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a id="navbar-button-auth" class="nav-link">Authentication</a>
+          </li>
+          <li class="nav-item">
+            <a id="navbar-button-birthday" class="nav-link hide">My birthday</a>
+          </li>
+          <li class="nav-item">
+            <a id="navbar-button-logout" class="nav-link hide">Logout</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+  <div id="auth"></div>
+  <div id="birthday" class="hide">
+    <div id="event"></div>
+    <div id="friends"></div>
+  </div>
+  <div id="new-friend" class="hide">
+    <form class="col-6 offset-3">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" id="name" placeholder="John Doe">
+      </div>
+      <div class="form-group">
+        <label for="email">Email address</label>
+        <input type="email" class="form-control" id="email" placeholder="Enter email">
+      </div>
+      <button type="submit" id="saveNewFriend" class="btn btn-primary">Add Friend</button>
+    </form>
+  </div>
+</body>
 </html>
