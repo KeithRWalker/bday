@@ -5,6 +5,8 @@ import birthdayData from '../../helpers/data/birthdayData';
 import friendsData from '../../helpers/data/friendsData';
 import rsvpData from '../../helpers/data/rsvpsData';
 
+import SMASH from '../../helpers/smash';
+
 import util from '../../helpers/util';
 
 const createNewFriend = (e) => {
@@ -18,10 +20,17 @@ const createNewFriend = (e) => {
     .then(() => {
       document.getElementById('name').value = '';
       document.getElementById('email').value = '';
-      document.getElementById('bday').classList.remove('hide');
+      document.getElementById('birthday').classList.remove('hide');
       document.getElementById('new-friend').classList.add('hide');
+      getFriends(firebase.auth().currentUser.uid); // eslint-disable-line no-use-before-define
     })
     .catch(err => console.error('no new friend for you', err));
+};
+
+const newFriendButton = () => {
+  document.getElementById('birthday').classList.add('hide');
+  document.getElementById('new-friend').classList.remove('hide');
+  document.getElementById('saveNewFriend').addEventListener('click', createNewFriend);
 };
 
 const deleteFriendsEvent = (e) => {
@@ -29,12 +38,6 @@ const deleteFriendsEvent = (e) => {
   friendsData.deleteFriend(friendId)
     .then(() => getFriends(firebase.auth().currentUser.uid)) // eslint-disable-line no-use-before-define
     .catch(err => console.error(err, 'error from deletefriendevent'));
-};
-
-const newFriendButton = () => {
-  document.getElementById('bday').classList.add('hide');
-  document.getElementById('new-friend').classList.remove('hide');
-  document.getElementById('saveNewFriend').addEventListener('click', createNewFriend);
 };
 
 const addEvents = () => {
@@ -65,15 +68,15 @@ const showFriends = (friends) => {
     domString += `<td>${friend.email}</td>`;
     domString += `<td id=${friend.rsvpId}>`;
     domString += '<div class="custom-control custom-radio custom-control-inline">';
-    domString += `<input type="radio" id="radio1_${friend.id}" name="radio-buttons_${friend.id}" class="custom-control-input">`;
+    domString += `<input type="radio" id="radio1_${friend.id}" name="radio-buttons_${friend.id}" class="custom-control-input" ${friend.statusId === 'status2' ? 'checked' : ''}>`;
     domString += `<label class="custom-control-label" for="radio1_${friend.id}">Yes</label>`;
     domString += '</div>';
     domString += '<div class="custom-control custom-radio custom-control-inline">';
-    domString += `<input type="radio" id="radio2_${friend.id}" name="radio-buttons_${friend.id}" class="custom-control-input">`;
+    domString += `<input type="radio" id="radio2_${friend.id}" name="radio-buttons_${friend.id}" class="custom-control-input" ${friend.statusId === 'status3' ? 'checked' : ''}>`;
     domString += `<label class="custom-control-label" for="radio2_${friend.id}">No</label>`;
     domString += '</div>';
     domString += '<div class="custom-control custom-radio custom-control-inline">';
-    domString += `<input type="radio" id="radio3_${friend.id}" name="radio-buttons_${friend.id}" class="custom-control-input">`;
+    domString += `<input type="radio" id="radio3_${friend.id}" name="radio-buttons_${friend.id}" class="custom-control-input" ${friend.statusId === 'status1' ? 'checked' : ''}>`;
     domString += `<label class="custom-control-label" for="radio3_${friend.id}">IDK</label>`;
     domString += '</div>';
     domString += '</td>';
@@ -84,7 +87,7 @@ const showFriends = (friends) => {
   domString += '</table>';
   domString += '</div>';
   util.printToDom('friends', domString);
-  document.getElementById('add-friend-button').addEventListener('click', newFriendButton);
+  // document.getElementById('add-friend-button').addEventListener('click', newFriendButton);
   addEvents();
 };
 
@@ -93,9 +96,8 @@ const getFriends = (uid) => {
     .then((friends) => {
       birthdayData.getBirthdayByUid(uid).then((bday) => {
         rsvpData.getRsvpsByBirthdayId(bday.id).then((rsvps) => {
-          console.error('friends Array', friends);
-          console.error('rsvps Array', rsvps);
-          showFriends(friends);
+          const finalFriends = SMASH.friendRsvps(friends, rsvps);
+          showFriends(finalFriends);
         });
       });
     })
